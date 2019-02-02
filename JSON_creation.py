@@ -2,33 +2,42 @@
 
 # creating JSON objects for each Heading 1
 import json
-stuctured_format = ["Honors","Education","Experience","Projects","Skills"]
+stuctured_format_titles = []
+stuctured_format_titles_bodies = []
 JSON_list = []
-def main():
-    for j in range(len(stuctured_format)):
+JSON_object = {}
+def set_JSON_title(titles):
+    global stuctured_format_titles
+    stuctured_format_titles = titles
+
+def set_JSON_bodies(bodies):
+    global stuctured_format_titles_bodies
+    stuctured_format_titles_bodies = bodies
+
+
+def build_JSON_parts():
+    global stuctured_format_titles
+    global stuctured_format_titles_bodies
+    global JSON_list
+    for j in range(len(stuctured_format_titles)):
         x=""
-        x += "\""+stuctured_format[j]+"\"" + ": ["
-        for i in range(len(stuctured_format)):
-            x+="\""+stuctured_format[i]+"\""
-            if i != len(stuctured_format)-1:
+        x += "\""+stuctured_format_titles[j]+"\"" + ": ["
+        for i in range(len(stuctured_format_titles_bodies[j])):
+            x+="\""+stuctured_format_titles_bodies[j][i]+"\""
+            if i != len(stuctured_format_titles_bodies[j])-1:
                 x+=","
         x+="]"
-        # if j != len(stuctured_format)-1:
-        #      x+=", "
         JSON_list.append(x)
 
-    #d = json.loads(y)
-    #print(d)
-    #print(json.dumps(y))
-    #print(d.get("Skills"))
-    #print(JSON_list[0])
 
-
-    ################################################################################
-
-    # Create big JSON object
-    y = "{ " + JSON_list[0] + ", "+ JSON_list[1] + ", "+ JSON_list[2] + ", "+ JSON_list[3] + ", "+ JSON_list[4] +" }"
-
-    #print(y)
+def finalize_JSON():
+    global JSON_list
+    global JSON_object
+    y = "{ "
+    for i in range(len(JSON_list)):
+        y+= JSON_list[i]
+        if i != len(JSON_list)-1:
+            y+="," 
+    y+=" }"    
     d = json.loads(y)
-    print(json.dumps(d, indent=4, sort_keys=True))
+    JSON_object = d
