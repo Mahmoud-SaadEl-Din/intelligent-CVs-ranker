@@ -1,12 +1,10 @@
-#from functions import *
-import sys
-import tkinter
-from os import listdir
-from os.path import join,isfile
-from tkinter import filedialog
-from tkinter import messagebox
-from PIL import ImageTk,Image
-from time import sleep
+from functions import *
+#import sys
+#import tkinter
+#from tkinter import filedialog
+#from tkinter import messagebox
+#from PIL import ImageTk,Image
+#from time import sleep
 
 
 def resize_image(event):
@@ -26,6 +24,7 @@ def finish():
 
 
 def clicked2():
+    txt1.delete(0,'end')
     dir=tkinter.filedialog.askdirectory()
     txt1.insert(0,dir) #index???
 
@@ -36,14 +35,15 @@ def text_input():
         print(onlyfiles)
         window.withdraw()
         window2.wm_deiconify()
-        enable_function()
+        start_scanning(onlyfiles,input,btn3)
+        #enable_function()
     else:
         messagebox.showinfo("Error", "please write the directory")
 
-def enable_function():
-    for i in range(20):
-        sleep(0.5)
-    btn3.config(state="normal")
+#def enable_function():
+#    #for i in range(20):
+#    #    sleep(0.5)
+#    btn3.config(state="normal")
 
 
 window=tkinter.Tk()
