@@ -29,16 +29,20 @@ def clicked2():
     txt1.insert(0,dir) #index???
 
 def text_input():
-    input = txt1.get()
-    if (input !=""):
-        onlyfiles = [f for f in listdir(input) if isfile(join(input, f))]
+    cv_dir = txt1.get()
+    job_des= job_description.get("1.0",END)
+    print (len(job_des))
+    sentences=job_des.split('\n')
+    print(sentences)
+    if (cv_dir  !="" and len(job_des)>1):
+        onlyfiles = [f for f in listdir(cv_dir ) if isfile(join(cv_dir , f))]
         print(onlyfiles)
         window.withdraw()
         window2.wm_deiconify()
-        start_scanning(onlyfiles,input,btn3)
+        start_scanning(onlyfiles,cv_dir,btn3,sentences)
         #enable_function()
     else:
-        messagebox.showinfo("Error", "please write the directory")
+        messagebox.showinfo("Error", "please write the Cvs directory or job description")
 
 #def enable_function():
 #    #for i in range(20):
@@ -78,5 +82,11 @@ background_label2.place(x=0, y=0, relwidth=1, relheight=1)
 background_label2.bind('<Configure>', resize_image)
 btn3=tkinter.Button(window2,text="Finish",fg="blue",width=10,font=28,command=finish)
 btn3.place(x=200,y=250)
-#btn3.config(state="disable");
+btn3.config(state="disable");
+
+lbl=tkinter.Label(window,text="Enter Your Job Description",font=("Arial",14),bg="white")
+lbl.place(x=0,y=50)
+
+job_description=Text(window,height=15,width=40,font=("Arial",12))
+job_description.place(x=0,y=80)
 window.mainloop()
