@@ -102,7 +102,7 @@ class ScanningGUI(tk.Frame):
         self.BackgroundLabel.place(x=0, y=0, relwidth=1, relheight=1)
         self.BackgroundLabel.bind('<Configure>', self.resize_image)
         self.FinishBtn= Button(self,text="Finish",fg="blue",width=10,font=28,command=lambda : controller.show_CVs(CVsView))
-        self.FinishBtn.place(x=200,y=250)
+        self.FinishBtn.place(x=165,y=425)
         self.FinishBtn.config(state="disable")
        
     def resize_image(self,event):
