@@ -25,6 +25,7 @@ class GUI(tk.Tk):
          self.geometry("500x500")
          self.title("CV Hunter")
          self.resizable(0,0)
+         self.var=tk.IntVar()
          self.iconbitmap(r'CV_Hunter_MaroonBG.ico')
          self.container = tk.Frame(self)
          self.container.pack(side="top",fill="both",expand=True)
@@ -40,16 +41,11 @@ class GUI(tk.Tk):
     def show_ScanningPage(self, name):
         self.startPage= self.frames[StartPage]
         self.CvsDir = self.startPage.DirTxt.get()
-        JobDes=self.startPage.JobDescription.get("1.0",END)
-        self.JobSentences=JobDes.split('\n')
-        self.JobSentences = list(filter(None,self.JobSentences)) # fastest
-        if (self.CvsDir  !="" and len(self.JobSentences)>0):
-            print("Inputs Taken")
+        self.JobDes=self.startPage.JobDescription.get("1.0",END)
+        if (self.CvsDir  !="" and len(self.JobDes)>2):
             frame = self.frames[name]
             frame.tkraise()
-            from APPManger import AppManger
-            self.MyManger=AppManger.getInstance()
-            self.MyManger.StartScanning(self.JobSentences,self.CvsDir)
+            self.var.set(1)
         else:
             messagebox.showinfo("Error", "please write the Cvs directory or job description")
 
