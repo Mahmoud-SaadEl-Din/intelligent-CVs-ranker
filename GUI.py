@@ -5,6 +5,8 @@ from tkinter.ttk import Treeview
 from PIL import ImageTk,Image
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter.ttk import Progressbar
+from tkinter.ttk import Style
 
 
 class GUI(tk.Tk):
@@ -97,8 +99,22 @@ class ScanningGUI(tk.Frame):
         self.BackgroundLabel.photo=BackgroungImage
         self.BackgroundLabel.place(x=0, y=0, relwidth=1, relheight=1)
         self.BackgroundLabel.bind('<Configure>', self.resize_image)
+        self.style = Style(self)
+        self.style.layout('text.Horizontal.TProgressbar', 
+             [('Horizontal.Progressbar.trough',
+               {'children': [('Horizontal.Progressbar.pbar',
+                              {'side': 'left', 'sticky': 'ns'})],
+                'sticky': 'nswe'}), 
+              ('Horizontal.Progressbar.label', {'sticky': ''})])
+        self.style.configure('text.Horizontal.TProgressbar', text='0 %')
+        self.progressbar= Progressbar(self,orient="horizontal",length=480,mode="determinate",style='text.Horizontal.TProgressbar')
+        self.progressbar.place(x=10,y=420)
+        self.currentValue=0
+        self.maxValue=100
+        self.progressbar["value"]=self.currentValue
+        self.progressbar["maximum"]=self.maxValue
         self.FinishBtn= Button(self,text="Finish",fg="blue",width=10,font=28,command=lambda : controller.show_CVs(CVsView))
-        self.FinishBtn.place(x=165,y=425)
+        self.FinishBtn.place(x=165,y=455)
         self.FinishBtn.config(state="disable")
        
     def resize_image(self,event):
@@ -109,6 +125,9 @@ class ScanningGUI(tk.Frame):
         photo = ImageTk.PhotoImage(image)
         self.BackgroundLabel.config(image = photo)
         self.BackgroundLabel = photo #avoid garbage collection
+
+    def progress(self,currentValue):
+        self.progressbar["value"]=currentValue
 
 class CVsView(tk.Frame):
     def __init__(self, parent, controller):

@@ -17,7 +17,7 @@ class AppManger:
 
     def __init__(self):
         if AppManger.__instance != None:
-         raise Exception("This class is a singleton!")
+         raise Exception("AppManger class is a singleton!")
         else:
          AppManger.__instance = self
          self.FileSys=fileSystem()
@@ -43,6 +43,13 @@ class AppManger:
         List.append(t1)
         List.append(t2)
         self.ScanScreen= self.app.frames[ScanningGUI]
+        divisions=10
+        for i in range(divisions):
+            self.ScanScreen.currentValue=self.ScanScreen.currentValue+10
+            self.ScanScreen.style.configure('text.Horizontal.TProgressbar', 
+                    text='{:g} %'.format(self.ScanScreen.currentValue))
+            self.ScanScreen.progressbar.after(500, self.ScanScreen.progress(self.ScanScreen.currentValue))
+            self.ScanScreen.progressbar.update() # Force an update of the GUI
         self.ScanScreen.FinishBtn.config(state="normal")
         self.app.GetResumes(List)
         self.app.mainloop()
