@@ -27,9 +27,14 @@ class AppManger:
 
     def StartProgram(self):
         self.app=GUI.getInstance()
+        self.Grade=False
         print("waiting for inputs.............")
         self.app.frames[StartPage].StartBtn.wait_variable(self.app.var)
         print("Inputs Taken")
+        if(self.app.frames[StartPage].CheckVar.get()==1):
+            self.Grade=True
+            self.ChosenGrade= self.app.frames[StartPage].ComboBox.get()
+            print(self.ChosenGrade)
         self.CVsFiles= self.FileSys.GetFiles(self.app.CvsDir)
         self.JobDescription=self.splitter.sentenceSplitter(self.app.JobDes)
         self.ParsedFiles= self.FileSys.GetFiles(r"C:\Users\tarek\source\repos\PythonApplication5\PythonApplication5\Test Folder")

@@ -7,6 +7,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter.ttk import Progressbar
 from tkinter.ttk import Style
+from tkinter.ttk import Combobox
+from tkinter.ttk import Checkbutton
 
 
 class GUI(tk.Tk):
@@ -24,7 +26,7 @@ class GUI(tk.Tk):
         else:
          GUI.__instance = self
          tk.Tk.__init__(self)
-         self.geometry("500x500")
+         self.geometry("580x500")
          self.title("CV Hunter")
          self.resizable(0,0)
          self.var=tk.IntVar()
@@ -73,9 +75,10 @@ class StartPage(tk.Frame):
        #self.BackgroundLabel.place(x=0, y=0, relwidth=1, relheight=1)
        self.DicLabel= Label(self,text="Enter CVs Directory",font=("Arial",14))
        self.DicLabel.grid(column=0,row=0)
-       self.DirTxt= Entry(self,width=55);
+       self.DirTxt= Entry(self,width=55)
        self.DirTxt.place(x=0,y=30);
        self.DirTxt.focus()
+       self.CheckVar = tk.IntVar()
        self.BrowseBtn= Button(self,text="Browse",command=self.Browse)
        self.BrowseBtn.place(x=350,y=30)
        self.JobLabel= Label(self,text="Enter Your Job Description",font=("Arial",14))
@@ -84,12 +87,25 @@ class StartPage(tk.Frame):
        self.JobDescription.place(x=0,y=80)
        self.StartBtn= Button(self,text="Start Scanning",fg="blue",width=30,font=28,command=lambda : controller.show_ScanningPage(ScanningGUI))
        self.StartBtn.place(x=80,y=400)
+       self.GradeLabel= Label(self,text="Enter Minimum Grade",font=("Arial",14))
+       self.GradeLabel.place(x=370,y=90)
+       self.GradeCkeck =  Checkbutton(self,text = "Grade",variable=self.CheckVar,onvalue=1,offvalue=0,width=20,command=self.ChangeComboBox)
+       self.GradeCkeck.place(x=370,y=120)
+       self.ComboBox = Combobox(self,values=["Excellent","Very Good","Good","Bad"],state='disabled')
+       self.ComboBox.place(x=370,y=160)
+       self.ComboBox.current(0)
             
    def Browse(self):
         print("Browse Button is Clicked")
         self.DirTxt.delete(0,'end')
         Dir=tk.filedialog.askdirectory()
         self.DirTxt.insert(0,Dir) #index???
+    
+   def ChangeComboBox(self):
+       if self.CheckVar.get()==1:
+           self.ComboBox.config(state="readonly")
+       else:
+            self.ComboBox.config(state="disable")
 
 class ScanningGUI(tk.Frame):
     def __init__(self, parent, controller):
