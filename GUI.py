@@ -1,5 +1,6 @@
 import sys
 import tkinter as tk
+import os
 from tkinter import *
 from tkinter.ttk import Treeview
 from PIL import ImageTk,Image
@@ -56,7 +57,7 @@ class GUI(tk.Tk):
     def show_CVs(self, name):
         frame = self.frames[name]
         frame.tkraise()
-        frame.DrawWindow(self.List)
+        frame.DrawWindow(self.List,self)
 
     def show_StartPage(self, name):
         frame = self.frames[name]
@@ -64,6 +65,12 @@ class GUI(tk.Tk):
 
     def GetResumes(self,List):
         self.List=List
+
+    def OnDoubleClick(self,event):
+        item = self.frames[CVsView].treeview.selection()[0]
+        item= self.frames[CVsView].treeview.item(item,"text")
+        print(item)
+        os.system("start "+self.CvsDir+'/'+item)
 
 class StartPage(tk.Frame): 
    def __init__(self, parent, controller):
@@ -149,12 +156,13 @@ class CVsView(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-    def DrawWindow(self,ResumeList):
+    def DrawWindow(self,ResumeList,controller):
        self.CreateUI()
        self.LoadTable(ResumeList)
        self.treeview.grid(sticky = (N,S,W,E))
        self.grid_rowconfigure(0, weight = 1)
        self.grid_columnconfigure(0, weight = 1)
+       self.treeview.bind("<Double-1>",controller.OnDoubleClick)
 
     def CreateUI(self):
         tv = Treeview(self)
@@ -171,3 +179,9 @@ class CVsView(tk.Frame):
     def LoadTable(self,ResumeList):
         for tuples in ResumeList:
             self.treeview.insert('', 'end', text=tuples[0], values=(tuples[1]))
+
+    def OnDoubleClick(self,event):
+        item = self.treeview.selection()[0]
+        item= self.treeview.item(item,"text")
+        print(item)
+        os.system("start "+self.DirTxt.get()+item)
