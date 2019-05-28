@@ -1,5 +1,4 @@
-import DocxReader as reader
+from APPManger import AppManger
 
-
-reader.scan_docx('Resume.docx')
-print(reader.get_sentence_list())
+MyManger = AppManger.getInstance()
+MyManger.StartProgram()
